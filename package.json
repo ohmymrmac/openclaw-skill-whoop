@@ -1,0 +1,17 @@
+{
+  "name": "openclaw-skill-whoop",
+  "version": "0.1.0",
+  "description": "OpenClaw skill for Whoop API integration",
+  "type": "module",
+  "main": "scripts/whoop.mjs",
+  "scripts": {
+    "test": "node scripts/whoop.mjs --help"
+  },
+  "keywords": ["openclaw", "whoop", "fitness", "recovery"],
+  "author": "ohmymrmac",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ohmymrmac/openclaw-skill-whoop.git"
+  }
+}

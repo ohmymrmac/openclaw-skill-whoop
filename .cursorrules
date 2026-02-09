@@ -1,0 +1,69 @@
+# OpenClaw Whoop Skill Build Instructions
+
+You are building an OpenClaw skill for Whoop API integration.
+
+## Structure
+- SKILL.md - Main documentation with YAML frontmatter metadata
+- _meta.json - Contains ownerId, slug, version, publishedAt
+- scripts/whoop.mjs - Main executable Node.js script (ES modules)
+- README.md - GitHub readme
+- AGENTS.md - Agent-specific guidance
+
+## Requirements
+
+### OAuth Flow
+- Base URL: https://api.prod.whoop.com
+- OAuth endpoint: https://api.prod.whoop.com/oauth/oauth2/auth
+- Token endpoint: https://api.prod.whoop.com/oauth/oauth2/token
+- Required scopes: read:recovery, read:cycles, read:workout, read:sleep, read:profile
+- Use authorization code flow with PKCE
+- Store tokens securely (refresh token support)
+
+### API Endpoints to Implement
+1. GET /v1/recovery - Get recovery data
+2. GET /v1/sleep - Get sleep data
+3. GET /v1/cycle - Get physiological cycle data
+4. GET /v1/workout - Get workout data
+5. GET /v1/user/profile/basic - Get user profile
+
+### CLI Commands (in scripts/whoop.mjs)
+- `auth` - Start OAuth flow (open browser, handle callback)
+- `me` - Get user profile
+- `recovery [--days N] [--start DATE] [--end DATE]` - Get recovery data
+- `sleep [--days N] [--start DATE] [--end DATE]` - Get sleep data
+- `cycles [--days N] [--start DATE] [--end DATE]` - Get cycle data
+- `workouts [--days N] [--start DATE] [--end DATE]` - Get workout data
+- `latest` - Get latest recovery, sleep, and cycle data (for morning digest)
+
+### Code Style
+- Pure Node.js (no external dependencies except node:* modules)
+- ES modules (import/export)
+- Output JSON to stdout for agent parsing
+- Errors to stderr
+- Use fetch() for HTTP requests
+- Store config in ~/.openclaw/whoop-config.json
+
+### SKILL.md Frontmatter
+```yaml
+---
+name: whoop
+description: "Access Whoop recovery, sleep, cycle, and workout data via OAuth API."
+homepage: https://developer.whoop.com
+user-invocable: true
+metadata: 
+  openclaw:
+    requires:
+      config: ["skills.whoop"]
+    emoji: "💪"
+---
+```
+
+## Build Steps
+1. Create all files with proper structure
+2. Implement OAuth flow with PKCE
+3. Implement API client with token refresh
+4. Create CLI commands
+5. Write comprehensive SKILL.md documentation
+6. Create README.md for GitHub
+
+Start by creating the file structure and implementing the core OAuth + API client.
