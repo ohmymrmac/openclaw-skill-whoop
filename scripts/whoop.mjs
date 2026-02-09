@@ -225,7 +225,7 @@ async function cmdRecovery(args) {
   }
   
   const query = params.toString() ? `?${params.toString()}` : '';
-  const data = await apiRequest(`/developer/v1/recovery${query}`);
+  const data = await apiRequest(`/developer/v2/recovery${query}`);
   console.log(JSON.stringify(data, null, 2));
 }
 
@@ -242,7 +242,7 @@ async function cmdSleep(args) {
   }
   
   const query = params.toString() ? `?${params.toString()}` : '';
-  const data = await apiRequest(`/v1/sleep${query}`);
+  const data = await apiRequest(`/developer/v2/activity/sleep${query}`);
   console.log(JSON.stringify(data, null, 2));
 }
 
@@ -287,8 +287,8 @@ async function cmdLatest() {
   const end = today.toISOString();
 
   const [recovery, sleep, cycles] = await Promise.all([
-    apiRequest(`/developer/v1/recovery?start=${start}&end=${end}`).catch(() => null),
-    apiRequest(`/v1/sleep?start=${start}&end=${end}`).catch(() => null),
+    apiRequest(`/developer/v2/recovery?start=${start}&end=${end}`).catch(() => null),
+    apiRequest(`/developer/v2/activity/sleep?start=${start}&end=${end}`).catch(() => null),
     apiRequest(`/developer/v1/cycle?start=${start}&end=${end}`).catch(() => null),
   ]);
 
