@@ -5,7 +5,8 @@ OpenClaw skill for accessing Whoop fitness and recovery data via OAuth API.
 ## Features
 
 - ✅ OAuth 2.0 authentication with PKCE
-- ✅ Automatic token refresh
+- ✅ Automatic token refresh with refresh-token rotation safety
+- ✅ Request timeout protection (prevents hanging calls)
 - ✅ Recovery scores and metrics
 - ✅ Sleep performance data
 - ✅ Physiological cycle tracking
@@ -52,9 +53,26 @@ Follow the browser prompts to authorize the application.
 ```bash
 node scripts/whoop.mjs me
 node scripts/whoop.mjs latest
+node scripts/whoop.mjs status
+```
+
+Proactively rotate tokens (useful before scheduled jobs):
+
+```bash
+node scripts/whoop.mjs refresh
 ```
 
 ## Usage
+
+### Auth Utilities
+
+```bash
+# See token status/expiry
+node scripts/whoop.mjs status
+
+# Proactively refresh tokens
+node scripts/whoop.mjs refresh
+```
 
 ### Get Latest Data (Perfect for Morning Digest)
 
@@ -111,11 +129,11 @@ console.log(`Strain: ${data.cycle.score.strain}`);
 
 | Endpoint | Command | Status |
 |----------|---------|--------|
-| `/v1/user/profile/basic` | `me` | ✅ |
-| `/v1/recovery` | `recovery` | ✅ |
-| `/v1/sleep` | `sleep` | ✅ |
-| `/v1/cycle` | `cycles` | ✅ |
-| `/v1/workout` | `workouts` | ✅ |
+| `/v2/user/profile/basic` | `me` | ✅ |
+| `/v2/recovery` | `recovery` | ✅ |
+| `/v2/activity/sleep` | `sleep` | ✅ |
+| `/v2/cycle` | `cycles` | ✅ |
+| `/v2/activity/workout` | `workouts` | ✅ |
 
 ## Architecture
 

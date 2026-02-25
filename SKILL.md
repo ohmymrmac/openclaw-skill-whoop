@@ -59,9 +59,18 @@ This will:
 - Exchange the authorization code for access + refresh tokens
 - Store tokens in `~/.openclaw/whoop-config.json`
 
-The skill automatically refreshes access tokens as needed.
+The skill automatically refreshes access tokens as needed, rotates refresh tokens safely, and retries once on 401 responses.
 
 ## Commands
+
+### Auth Status / Refresh
+
+Check token status or proactively rotate tokens:
+
+```bash
+node {baseDir}/scripts/whoop.mjs status
+node {baseDir}/scripts/whoop.mjs refresh
+```
 
 ### Profile
 
@@ -173,7 +182,7 @@ All date/time parameters accept ISO 8601 format:
 
 ## API Details
 
-- Base URL: `https://api.prod.whoop.com`
+- Base URL: `https://api.prod.whoop.com` (API server: `/developer/v2/...`)
 - Scopes: `read:recovery`, `read:cycles`, `read:workout`, `read:sleep`, `read:profile`
 - Token refresh: Automatic (handled by the script)
 - Rate limits: Whoop enforces rate limits per the API documentation
@@ -184,7 +193,12 @@ All date/time parameters accept ISO 8601 format:
 Run `node {baseDir}/scripts/whoop.mjs auth` to authenticate.
 
 **"Token refresh failed" error:**
-Your refresh token may have expired. Re-run authentication:
+First check status and attempt a proactive refresh:
+```bash
+node {baseDir}/scripts/whoop.mjs status
+node {baseDir}/scripts/whoop.mjs refresh
+```
+If refresh still fails, re-run authentication:
 ```bash
 node {baseDir}/scripts/whoop.mjs auth
 ```
